@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wen.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.wen.vo.UserVO">
+        <id column="Id" jdbcType="INTEGER" property="id" />
+        <result column="Username" jdbcType="VARCHAR" property="userName" />
+        <result column="Password" jdbcType="VARCHAR" property="password" />
+        <result column="Email" jdbcType="VARCHAR" property="email" />
+        <result column="Enabled" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        Username, Password, Email, Enabled
+    </sql>
+
+    <select id="queryUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tab_users
+        where Id = #{id,jdbcType=INTEGER}
+        and Enabled = 1
+    </select>
+</mapper>

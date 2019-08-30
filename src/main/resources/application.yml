@@ -1,0 +1,66 @@
+server:
+  port: 2234
+spring:
+  datasource:
+#    url: ${spring.datasource.url}
+#    driver-class-name: ${spring.datasource.driver-class-name}
+#    username: ${spring.datasource.username}
+#    password: ${spring.datasource.password}
+    url: jdbc:mysql://localhost:3306/wen?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    #阿里druid数据连接池配置
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    # 初始化大小，最小，最大
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #spring.datasource.useGlobalDataSourceStat=true
+
+#开启apollo配置功能
+apollo:
+  #apollo 配置中心的地址.实际项目中可以将 apollo.meta 的配置放到系统的 server.properties里
+  #windows下的路径:C:\opt\settings\server.properties
+  #linux下的路径:/opt/settings/server.properties
+  #如果项目也同时配置了apollo.meta,会覆盖系统文件里所配置的.
+  #配置客户端的服务地址,默认为configservice项目启动的地址
+  meta: http://localhost:8080/
+  bootstrap:
+    enabled: true
+    #配置namespaces,默认为application,如有自定义的namespaces,以英文逗号隔开进行配置
+    namespaces: application,cignacmb.common
+#配置中心项目的id
+app:
+  id: springboot-mybatisplus
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  typeAliasesPackage: com.wen.entity
+  global-config:
+    id-type: 2
+    field-strategy: 2
+    db-column-underline: true
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
